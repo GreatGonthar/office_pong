@@ -3,6 +3,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QTimer
 import sys
 from pongGUI import Ui_MainWindow
+from PyQt5.QtGui import QPainter, QColor, QBrush
 
 
 # создание приложения
@@ -21,9 +22,20 @@ a=1 # переменные для реверса полета шарика
 b=1
 x_pole_min = 45
 x_pole_max = 420 
+pad = 0
+
+def slider_val():
+	global _ball, y_ball, a, b, x_pole_min, x_pole_max, pad
+	pad = ui.horizontalScrollBar.value() 
+	
+	print (int(pad*7.5))
+
+
+
 def onTimeout():
+	
 	'''эта функция полета шарика, и его отражения от стен '''
-	global x_ball, y_ball, a, b, x_pole_min, x_pole_max
+	global x_ball, y_ball, a, b, x_pole_min, x_pole_max, pad
 
 	if x_ball >= x_pole_max:
 		a=-1
@@ -36,8 +48,13 @@ def onTimeout():
 	elif y_ball <= 0:
 		b=1
 	y_ball=y_ball+(1*b)
+
+	if  y_ball >324 :
+		if x_ball >= int(pad*7.5) and x_ball <= int(pad*7.5)+90:
+			b=-1  
 	
-	#print('----',x_ball)
+	
+	print('----',x_ball, pad*7.5)
 
 	ui.Ball.setGeometry(QtCore.QRect(x_ball, y_ball, 16, 16))
 	
@@ -46,19 +63,12 @@ def doAction():
 	pass
 
 
-def slider_val():
-	global _ball, y_ball, a, b, x_pole_min, x_pole_max
-	pad = ui.horizontalScrollBar.value() 
-	if  y_ball >0 :
-		if int(x_ball/7.5) >= pad or int((x_ball/7.5)+48) <= pad:
-			b=-1  
-	print (int(pad*7.5))
-	
 
+	
 
 timer = QTimer()
 timer.timeout.connect(onTimeout)
-timer.start(50)	
+timer.start(20)	
 
 ui.horizontalScrollBar.sliderMoved.connect(slider_val)	
 
