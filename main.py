@@ -15,15 +15,28 @@ ui.setupUi(MainWindow)
 MainWindow.show()
 
 # логика
-x = 260
-y = 130
-
+x_ball = 260
+y_ball = 130
+a=1
+b=1
 def onTimeout():
-	global x, y
-	x+=1
-	print(x)
-	ui.Ball.setGeometry(QtCore.QRect(x, y, 16, 16))
+	global x_ball, y_ball, a, b
+	if x_ball >= 500-16:
+		a=-1
+	elif x_ball <= 0:
+		a=1
+	x_ball=x_ball+(1*a)
 
+	if y_ball >= 400-16:
+		b=-1
+	elif y_ball <= 0:
+		b=1
+	y_ball=y_ball+(1*b)
+	
+	print(x_ball, y_ball)
+
+	ui.Ball.setGeometry(QtCore.QRect(x_ball, y_ball, 16, 16))
+	
 
 def doAction():
 	pass
@@ -37,7 +50,7 @@ def slider_val():
 
 timer = QTimer()
 timer.timeout.connect(onTimeout)
-timer.start(1000)	
+timer.start(30)	
 
 ui.horizontalScrollBar.sliderMoved.connect(slider_val)	
 
