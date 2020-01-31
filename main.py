@@ -19,22 +19,28 @@ x = 260
 y = 130
 
 def onTimeout():
-    print(1)
-timer = QTimer()
-timer.timeout.connect(onTimeout)
-timer.start(1000)
+	global x, y
+	x+=1
+	print(x)
+	ui.Ball.setGeometry(QtCore.QRect(x, y, 16, 16))
+
+
+def doAction():
+	pass
 
 
 def slider_val():
 	global x, y
 	x_move = ui.horizontalScrollBar.value() 
 	
-def doAction():
-	global x, y
-	
+
+
+timer = QTimer()
+timer.timeout.connect(onTimeout)
+timer.start(1000)	
 
 ui.horizontalScrollBar.sliderMoved.connect(slider_val)	
-ui.Ball.setGeometry(QtCore.QRect(x, y, 16, 16))
+
 
 ui.Ball.clicked.connect(doAction)
 
