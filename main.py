@@ -23,6 +23,7 @@ b=1
 x_pole_min = 45
 x_pole_max = 420 
 pad = 0
+emo = 0
 
 def slider_val():
 	global _ball, y_ball, a, b, x_pole_min, x_pole_max, pad
@@ -35,7 +36,7 @@ def slider_val():
 def onTimeout():
 	
 	'''эта функция полета шарика, и его отражения от стен '''
-	global x_ball, y_ball, a, b, x_pole_min, x_pole_max, pad
+	global x_ball, y_ball, a, b, x_pole_min, x_pole_max, pad, emo
 
 	if x_ball >= x_pole_max:
 		a=-1
@@ -49,17 +50,29 @@ def onTimeout():
 		b=1
 	y_ball=y_ball+(1*b)
 
+	if y_ball <326 and emo != 1:
+		ui.Ball.setText("😊")
+	
+	else:
+		ui.Ball.setText("😩")
+
 	if  y_ball >324 :
 		if x_ball >= int(pad*7.5) and x_ball <= int(pad*7.5)+90:
-			b=-1  
-	
+			b=-1 
+			emo = 1 
+			if y_ball <324 and y_ball > 314:
+				ui.Ball.setText("y")
+				
+			
 	
 	print('----',x_ball, pad*7.5)
 
 	ui.Ball.setGeometry(QtCore.QRect(x_ball, y_ball, 16, 16))
 	
+	
 
-def doAction():
+def emo_swith():
+	print("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy")
 	pass
 
 
@@ -70,10 +83,11 @@ timer = QTimer()
 timer.timeout.connect(onTimeout)
 timer.start(20)	
 
+
 ui.horizontalScrollBar.sliderMoved.connect(slider_val)	
 
 
-ui.Ball.clicked.connect(doAction)
+ui.Ball.clicked.connect(emo_swith)
 
 
 # запускаем главную петлю
