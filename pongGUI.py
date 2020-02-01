@@ -12,8 +12,8 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(500, 400)
-        MainWindow.setMinimumSize(500, 400)
-        MainWindow.setMaximumSize(500, 400)
+        MainWindow.setMinimumSize(482, 400)
+        MainWindow.setMaximumSize(482, 400)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
 
         self.frame = QtWidgets.QFrame(self.centralwidget)
-        self.frame.setGeometry(QtCore.QRect(25, 30, 450, 361))
+        self.frame.setGeometry(QtCore.QRect(25, 30, 432, 361))
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
@@ -59,6 +59,9 @@ class Ui_MainWindow(object):
         #self.statusbar = QtWidgets.QStatusBar(MainWindow)
         #self.statusbar.setObjectName("statusbar")
         #MainWindow.setStatusBar(self.statusbar)
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(25, 5, 131, 21))
+        self.label.setObjectName("label")
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -67,6 +70,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.Ball.setText(_translate("MainWindow", "😊"))
+        self.label.setText(_translate("MainWindow", "Score: 0"))
 
     
 

@@ -22,10 +22,11 @@ y_ball = 130 # (325 - самый низ ракетки)
 a=1 # переменные для реверса полета шарика
 b=1
 x_pole_min = 25 #размеры поля
-x_pole_max = 450 + (size_ball/2)
+x_pole_max = 432 + (size_ball/2)
 y_pole_min = 30
 pad = 0
 emo = 0
+score = 0
 
 def slider_val():
 	global _ball, y_ball, a, b, x_pole_min, x_pole_max, pad
@@ -56,7 +57,8 @@ def onTimeout():
 
 	if  y_ball > 330 : #здесь мы отбиваемся от ракетки
 		if x_ball >= int(pad*7.5) and x_ball <= int(pad*7.5)+90:
-			b = -1 			
+			b = -1 
+			score_swith()			
 		else:
 			ui.Ball.setText("😩")		
 
@@ -64,14 +66,18 @@ def onTimeout():
 		if x_ball >= int(pad*7.5) and x_ball <= int(pad*7.5)+90 and b == -1:
 			ui.Ball.setText("😎")	
 	
-	print('----',x_ball, pad*7.5)
+	#print('----',x_ball, pad*7.5)
 
 	ui.Ball.setGeometry(QtCore.QRect(x_ball, y_ball, size_ball, size_ball))
 
 	
 
-def emo_swith():
-	
+def score_swith():
+	global score
+	score +=100
+	lable_text = str("Score: " + str(score))
+	ui.label.setText(lable_text)
+	print ('i')
 	pass
 
 
@@ -86,7 +92,7 @@ timer.start(20)
 ui.horizontalScrollBar.sliderMoved.connect(slider_val)	
 
 
-ui.Ball.clicked.connect(emo_swith)
+ui.Ball.clicked.connect(score_swith)
 
 
 # запускаем главную петлю
