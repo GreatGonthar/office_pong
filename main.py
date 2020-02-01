@@ -55,12 +55,14 @@ def onTimeout():
 
 	ui.Ball.setText("😊")
 
-	if  y_ball > 330 : #здесь мы отбиваемся от ракетки
+	if y_ball == 330: #здесь мы отбиваемся от ракетки
 		if x_ball >= int(pad*7.5) and x_ball <= int(pad*7.5)+90:
-			b = -1 
-			score_swith()			
-		else:
-			ui.Ball.setText("😩")		
+			
+			if b == 1:
+				score_swith()	
+			b = -1 			
+	if y_ball > 331:
+		ui.Ball.setText("😩")		
 
 	if y_ball > 300 and y_ball < 330:
 		if x_ball >= int(pad*7.5) and x_ball <= int(pad*7.5)+90 and b == -1:
@@ -77,7 +79,7 @@ def score_swith():
 	score +=100
 	lable_text = str("Score: " + str(score))
 	ui.label.setText(lable_text)
-	print ('i')
+	print (lable_text)
 	pass
 
 
