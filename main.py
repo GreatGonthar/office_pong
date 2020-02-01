@@ -20,7 +20,7 @@ x_ball = 260 # начальные координаты шарика (45 - сам
 y_ball = 130 # (325 - самый низ ракетки)
 a=1 # переменные для реверса полета шарика
 b=1
-x_pole_min = 45
+x_pole_min = 45 #размеры поля
 x_pole_max = 420 
 pad = 0
 emo = 0
@@ -38,7 +38,7 @@ def onTimeout():
 	'''эта функция полета шарика, и его отражения от стен '''
 	global x_ball, y_ball, a, b, x_pole_min, x_pole_max, pad, emo
 
-	if x_ball >= x_pole_max:
+	if x_ball >= x_pole_max: #здесь мы отбиваемся от стен
 		a=-1
 	elif x_ball <= x_pole_min:
 		a=1
@@ -50,25 +50,22 @@ def onTimeout():
 		b=1
 	y_ball=y_ball+(1*b)
 
-	if y_ball <326 and emo != 1:
-		ui.Ball.setText("😊")
-	
-	else:
-		ui.Ball.setText("😩")
+	ui.Ball.setText("😊")
 
-	if  y_ball >324 :
+	if  y_ball > 324 : #здесь мы отбиваемся от ракетки
 		if x_ball >= int(pad*7.5) and x_ball <= int(pad*7.5)+90:
-			b=-1 
-			emo = 1 
-			if y_ball <324 and y_ball > 314:
-				ui.Ball.setText("y")
-				
-			
+			b = -1 			
+		else:
+			ui.Ball.setText("😩")		
+
+	if y_ball > 300 and y_ball < 324:
+		if x_ball >= int(pad*7.5) and x_ball <= int(pad*7.5)+90 and b == -1:
+			ui.Ball.setText("😎")	
 	
 	print('----',x_ball, pad*7.5)
 
 	ui.Ball.setGeometry(QtCore.QRect(x_ball, y_ball, 16, 16))
-	
+
 	
 
 def emo_swith():
