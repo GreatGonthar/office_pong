@@ -116,9 +116,15 @@ def score_swith():
 	print (lable_text)
 	pass
 
+def def_a():
+	global a
+	a += 1
+	print (a, b)
 
-
-	
+def def_b():
+	global b
+	b += 1
+	print (a, b)	
 
 timer = QTimer()
 timer.start(10)
@@ -130,7 +136,8 @@ timer.timeout.connect(onTimeout)
 ui.horizontalScrollBar.sliderMoved.connect(slider_val)	
 
 
-ui.Ball.clicked.connect(score_swith)
+ui.Button1.clicked.connect(def_a)
+ui.Button2.clicked.connect(def_b)
 
 
 # запускаем главную петлю
