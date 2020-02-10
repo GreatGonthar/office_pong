@@ -121,7 +121,7 @@ def score_swith():
 	
 
 timer = QTimer()
-timer.start(1)
+timer.start(10)
 timer.timeout.connect(onTimeout)
 
 	
