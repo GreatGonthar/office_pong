@@ -20,8 +20,8 @@ MainWindow.show()
 size_ball = 16
 x_ball = 260 # начальные координаты шарика (45 - самый левый край ракетки, 420 - самый правый край ракетки) 48 - длинна ракетки
 y_ball = 130 # (325 - самый низ ракетки)
-a=1 # переменные для реверса полета шарика
-b=1
+a=3 # переменные для реверса полета шарика
+b=3
 x_pole_min = 25 #размеры поля
 x_pole_max = 432 + (size_ball/2)
 y_pole_min = 30
@@ -33,7 +33,7 @@ directionx = 0
 directiony = 0
 rndx = 1
 rndy = 1
-print (b)
+
 
 def slider_val():
 	global _ball, y_ball, a, b, x_pole_min, x_pole_max, pad
@@ -55,8 +55,6 @@ def onTimeout():
 		x_ball = x_ball + (a) #движение шарика по осям на '1' пиксель
 	
 	
-
-	
 	if directiony <= 0:
 		if y_ball >= y_pole_max - size_ball or y_ball <= y_pole_min:
 			b = -b
@@ -67,22 +65,10 @@ def onTimeout():
 	if y_ball >= 330 and y_ball <= 335: #здесь мы отбиваемся от ракетки
 		if x_ball >= int(pad*7.5) and x_ball <= int(pad*7.5)+90: # '90' это длинна нашей ракетки в пикселях
 			
-			if b == 1: # если шарик летит вниз добавляем очки
+			if b > 0: # если шарик летит вниз добавляем очки
 				score_swith()	
 			
-			b = -1 # шарик летит вверх после отбивания
-			a = random.randrange(-1, 2, 2) 
-			xy = random.randint(1, 2)
-			if xy == 1:
-				rndx = random.randrange(1, 5, 1)
-			else:
-				rndx = 1
-
-			if xy == 2:
-				rndy = random.randrange(1, 5, 1)
-			else:
-				rndy = 1
-			print(rndx, rndy, a)		
+			
 			
 	if y_ball > 331:
 		ui.Ball.setText("😩")		
@@ -109,12 +95,18 @@ def onTimeout():
 	
 
 def score_swith():
-	global score
+	global score, b, a
 	score +=100
 	lable_text = str("Score: " + str(score))
 	ui.label.setText(lable_text)
 	print (lable_text)
-	pass
+	if b == 3 or b == -3:
+		a = random.randrange(-1, 2, 2) * random.randrange(1, 4)
+	if a == 3 or a == -3:
+		b = random.randrange(1, 4)
+	
+	print (a, b)
+	b = -b # шарик летит вверх после отбивания
 
 def def_a():
 	global a
