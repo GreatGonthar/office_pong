@@ -54,7 +54,7 @@ class Ui_MainWindow(object):
         self.Ball.setObjectName("Ball")
 
         self.Button1 = QtWidgets.QPushButton(self.centralwidget)
-        self.Button1.setGeometry(QtCore.QRect(30, 380, 50, 25))
+        self.Button1.setGeometry(QtCore.QRect(40, 80, 50, 25))
         self.Button1.setObjectName("Button1")
 
         self.Button2 = QtWidgets.QPushButton(self.centralwidget)
@@ -75,7 +75,10 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-        
+    
+
+    
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "-= 🏓Office PONG🎾 =-"))
@@ -83,6 +86,6 @@ class Ui_MainWindow(object):
         self.Button1.setText(_translate("MainWindow", "1"))
         self.Button2.setText(_translate("MainWindow", "2"))
         self.label.setText(_translate("MainWindow", "Score: 0"))
-
     
+
 
