@@ -40,6 +40,7 @@ def onTimeout():
 	global x_ball, y_ball, a, b, x_pole_min, x_pole_max, pad
 	
 	ui.Ball.setGeometry(QtCore.QRect(x_ball, y_ball, size_ball, size_ball)) # отображаем шарик с переменными координатами
+	ui.Ball.setText("😊")
 	x_ball += a
 	y_ball += b
 	
@@ -47,9 +48,7 @@ def onTimeout():
 		a = -a
 		
 	if y_ball >= y_pole_max - size_ball or y_ball <= y_pole_min:
-		b = -b
-		
-	ui.Ball.setText("😊")
+		b = -b	
 
 	if y_ball >= 330 and y_ball <= 335: #здесь мы отбиваемся от ракетки
 		if x_ball >= int(pad*7.5) and x_ball <= int(pad*7.5)+90: # '90' это длинна нашей ракетки в пикселях
@@ -62,6 +61,10 @@ def onTimeout():
 	if y_ball > 300 and y_ball < 330: #показываем эмоцию
 		if x_ball >= int(pad*7.5) and x_ball <= int(pad*7.5)+90 and b < 0:
 			ui.Ball.setText("😩")			
+	
+	if x_ball > 40 and x_ball < 90 and y_ball > 80-size_ball and y_ball < 105: # TOODO: пытаемся отразится от кнопки
+		a=-a
+		print (x_ball,y_ball)
 
 def score_swith():
 	''' набираем очки'''
@@ -80,7 +83,7 @@ def score_swith():
 
 def aliens():
 	#ui.Button1.show()
-	ui.Button1.hide()
+	#ui.Button1.hide()
 	print('hallo')
 
 timer = QTimer()
