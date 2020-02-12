@@ -53,8 +53,11 @@ class Ui_MainWindow(object):
         self.Ball.setGeometry(QtCore.QRect(260, 130, 16, 16))
         self.Ball.setObjectName("Ball")
 
+        self.Button1_x = 140
+        self.Button1_y = 180
+
         self.Button1 = QtWidgets.QPushButton(self.centralwidget)
-        self.Button1.setGeometry(QtCore.QRect(40, 80, 50, 25))
+        self.Button1.setGeometry(QtCore.QRect(self.Button1_x, self.Button1_y, 200, 100))
         self.Button1.setObjectName("Button1")
 
         self.Button2 = QtWidgets.QPushButton(self.centralwidget)

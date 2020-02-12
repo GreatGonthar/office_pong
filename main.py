@@ -61,10 +61,13 @@ def onTimeout():
 	if y_ball > 300 and y_ball < 330: #показываем эмоцию
 		if x_ball >= int(pad*7.5) and x_ball <= int(pad*7.5)+90 and b < 0:
 			ui.Ball.setText("😩")			
-	
-	if x_ball > 40 and x_ball < 90 and y_ball > 80-size_ball and y_ball < 105: # TOODO: пытаемся отразится от кнопки
-		a=-a
-		print (x_ball,y_ball)
+	''' алгоритм отбивания от кнопки, TOODO: сократить код и сделать его читабельнее '''
+	if x_ball > ui.Button1_x - size_ball and x_ball < ui.Button1_x + 200 and y_ball > ui.Button1_y - size_ball and y_ball < ui.Button1_y + 100:
+		if x_ball > ui.Button1_x - size_ball and x_ball < ui.Button1_x + 200 and y_ball > ui.Button1_y - size_ball + 3 and y_ball < ui.Button1_y + 100 - 3:
+			a = -a 
+		if x_ball > ui.Button1_x - size_ball + 3 and x_ball < ui.Button1_x + 200 - 3 and y_ball > ui.Button1_y - size_ball and ui.Button1_y + 100:
+			b = -b
+		print (ui.Button1_x, ui.Button1_x + 100, ui.Button1_y, ui.Button1_y + 100)	
 
 def score_swith():
 	''' набираем очки'''
