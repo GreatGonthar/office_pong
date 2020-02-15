@@ -53,7 +53,7 @@ def onTimeout():
 	if y_ball >= 330 and y_ball <= 335: #здесь мы отбиваемся от ракетки
 		if x_ball >= int(pad*7.5) and x_ball <= int(pad*7.5)+90: # '90' это длинна нашей ракетки в пикселях
 			if b > 0: # если шарик летит вниз добавляем очки
-				score_swith()	
+				revers()	
 	
 	if y_ball > 331:
 		ui.Ball.setText("😎")		
@@ -62,15 +62,15 @@ def onTimeout():
 		if x_ball >= int(pad*7.5) and x_ball <= int(pad*7.5)+90 and b < 0:
 			ui.Ball.setText("😩")			
 	''' алгоритм отбивания от кнопки, TOODO: сократить код и сделать его читабельнее '''
-	if x_ball > ui.Button1_x - size_ball and \
-	 x_ball < ui.Button1_x + 200 and \
-	 y_ball > ui.Button1_y - size_ball and \
-	 y_ball < ui.Button1_y + 100:
-		if x_ball > ui.Button1_x - size_ball and x_ball < ui.Button1_x + 200 and y_ball > ui.Button1_y - size_ball + 3 and y_ball < ui.Button1_y + 100 - 3:
+	if x_ball > ui.Button1_x - size_ball and x_ball < ui.Button1_x + 200 and \
+	 y_ball > ui.Button1_y - size_ball and y_ball < ui.Button1_y + 100:
+
+		if y_ball > ui.Button1_y - size_ball + 3 and y_ball < ui.Button1_y + 100 - 3:
 			a = -a 
-		if x_ball > ui.Button1_x - size_ball + 3 and x_ball < ui.Button1_x + 200 - 3 and y_ball > ui.Button1_y - size_ball and ui.Button1_y + 100:
+		if x_ball > ui.Button1_x - size_ball + 3 and x_ball < ui.Button1_x + 200 - 3:
 			b = -b
 		print (ui.Button1_x, ui.Button1_x + 100, ui.Button1_y, ui.Button1_y + 100)	
+		score_swith()
 
 def score_swith():
 	''' набираем очки'''
@@ -79,6 +79,8 @@ def score_swith():
 	lable_text = str("Score: " + str(score))
 	ui.label.setText(lable_text)
 	print (lable_text)
+
+def revers():
 	''' скорость по одной из осей должна всегда быть три (для равномерного движения)'''
 	if b == 3 or b == -3: 
 		a = random.randrange(-1, 2, 2) * random.randrange(1, 4)
@@ -86,6 +88,7 @@ def score_swith():
 		b = random.randrange(1, 4)	
 	print (a, b)
 	b = -b # шарик летит вверх после отбивания
+
 
 def aliens():
 	#ui.Button1.show()
