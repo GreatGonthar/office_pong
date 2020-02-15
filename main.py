@@ -62,7 +62,10 @@ def onTimeout():
 		if x_ball >= int(pad*7.5) and x_ball <= int(pad*7.5)+90 and b < 0:
 			ui.Ball.setText("😩")			
 	''' алгоритм отбивания от кнопки, TOODO: сократить код и сделать его читабельнее '''
-	if x_ball > ui.Button1_x - size_ball and x_ball < ui.Button1_x + 200 and y_ball > ui.Button1_y - size_ball and y_ball < ui.Button1_y + 100:
+	if x_ball > ui.Button1_x - size_ball and \
+	 x_ball < ui.Button1_x + 200 and \
+	 y_ball > ui.Button1_y - size_ball and \
+	 y_ball < ui.Button1_y + 100:
 		if x_ball > ui.Button1_x - size_ball and x_ball < ui.Button1_x + 200 and y_ball > ui.Button1_y - size_ball + 3 and y_ball < ui.Button1_y + 100 - 3:
 			a = -a 
 		if x_ball > ui.Button1_x - size_ball + 3 and x_ball < ui.Button1_x + 200 - 3 and y_ball > ui.Button1_y - size_ball and ui.Button1_y + 100:
