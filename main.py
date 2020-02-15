@@ -28,6 +28,7 @@ y_pole_min = 30
 y_pole_max = 420
 score = 0
 pad = 0
+alien = 1
 
 def slider_val():
 	global pad 
@@ -37,7 +38,7 @@ def onTimeout():
 	
 	'''эта функция полета шарика, и его отражения от стен '''
 
-	global x_ball, y_ball, a, b, x_pole_min, x_pole_max, pad
+	global x_ball, y_ball, a, b, x_pole_min, x_pole_max, pad, alien
 	
 	ui.Ball.setGeometry(QtCore.QRect(x_ball, y_ball, size_ball, size_ball)) # отображаем шарик с переменными координатами
 	ui.Ball.setText("😊")
@@ -60,8 +61,14 @@ def onTimeout():
 
 	if y_ball > 300 and y_ball < 330: #показываем эмоцию
 		if x_ball >= int(pad*7.5) and x_ball <= int(pad*7.5)+90 and b < 0:
-			ui.Ball.setText("😩")			
+			ui.Ball.setText("😩")	
+	if alien > 0:
+		aliens_show()	
+
+def aliens_show():
 	''' алгоритм отбивания от кнопки, TOODO: сократить код и сделать его читабельнее '''
+	global x_ball, y_ball, a, b, x_pole_min, x_pole_max, pad
+	ui.Button1.show()
 	if x_ball > ui.Button1_x - size_ball and x_ball < ui.Button1_x + 200 and \
 	 y_ball > ui.Button1_y - size_ball and y_ball < ui.Button1_y + 100:
 
@@ -71,28 +78,34 @@ def onTimeout():
 			b = -b
 		print (ui.Button1_x, ui.Button1_x + 100, ui.Button1_y, ui.Button1_y + 100)	
 		score_swith()
+		
 
 def score_swith():
 	''' набираем очки'''
-	global score, b, a
+	global score
 	score +=100
 	lable_text = str("Score: " + str(score))
 	ui.label.setText(lable_text)
 	print (lable_text)
 
 def revers():
-	''' скорость по одной из осей должна всегда быть три (для равномерного движения)'''
+	global b, a
+	''' отбивание шарика от ракетки (скорость по одной из осей должна всегда быть три (для равномерного движения))'''
 	if b == 3 or b == -3: 
 		a = random.randrange(-1, 2, 2) * random.randrange(1, 4)
 	if a == 3 or a == -3:
 		b = random.randrange(1, 4)	
 	print (a, b)
 	b = -b # шарик летит вверх после отбивания
+	aliens_hide()
+	
 
 
-def aliens():
+def aliens_hide():
 	#ui.Button1.show()
-	#ui.Button1.hide()
+	global alien
+	ui.Button1.hide()
+	alien = alien *(-1)
 	print('hallo')
 
 timer = QTimer()
@@ -101,7 +114,8 @@ timer.timeout.connect(onTimeout)
 
 ui.horizontalScrollBar.sliderMoved.connect(slider_val)	
 
-ui.Button2.clicked.connect(aliens)
+ui.Button2.clicked.connect(aliens_hide)
+
 
 # запускаем главную петлю
 
