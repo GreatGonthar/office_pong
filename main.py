@@ -32,41 +32,10 @@ alien = 1
 
 def slider_val():
 	global pad 
-	pad = ui.horizontalScrollBar.value() 
-	
-def onTimeout():
-	
-	'''эта функция полета шарика, и его отражения от стен '''
-
-	global x_ball, y_ball, a, b, x_pole_min, x_pole_max, pad, alien
-	
-	ui.Ball.setGeometry(QtCore.QRect(x_ball, y_ball, size_ball, size_ball)) # отображаем шарик с переменными координатами
-	ui.Ball.setText("😊")
-	x_ball += a
-	y_ball += b
-	
-	if x_ball >= x_pole_max or x_ball <= x_pole_min: #здесь мы отбиваемся от стен
-		a = -a
-		
-	if y_ball >= y_pole_max - size_ball or y_ball <= y_pole_min:
-		b = -b	
-
-	if y_ball >= 330 and y_ball <= 335: #здесь мы отбиваемся от ракетки
-		if x_ball >= int(pad*7.5) and x_ball <= int(pad*7.5)+90: # '90' это длинна нашей ракетки в пикселях
-			if b > 0: # если шарик летит вниз добавляем очки
-				revers()	
-	
-	if y_ball > 331:
-		ui.Ball.setText("😎")		
-
-	if y_ball > 300 and y_ball < 330: #показываем эмоцию
-		if x_ball >= int(pad*7.5) and x_ball <= int(pad*7.5)+90 and b < 0:
-			ui.Ball.setText("😩")	
-	if alien > 0:
-		aliens_show()	
+	pad = int(ui.horizontalScrollBar.value()*7.5)
 
 def aliens_show():
-	''' алгоритм отбивания от кнопки, TOODO: сократить код и сделать его читабельнее '''
+	''' алгоритм отбивания от кнопки '''
 	global x_ball, y_ball, a, b, x_pole_min, x_pole_max, pad
 	ui.Button1.show()
 	if x_ball > ui.Button1_x - size_ball and x_ball < ui.Button1_x + 200 and \
@@ -77,8 +46,7 @@ def aliens_show():
 		if x_ball > ui.Button1_x - size_ball + 3 and x_ball < ui.Button1_x + 200 - 3:
 			b = -b
 		print (ui.Button1_x, ui.Button1_x + 100, ui.Button1_y, ui.Button1_y + 100)	
-		score_swith()
-		
+		score_swith()		
 
 def score_swith():
 	''' набираем очки'''
@@ -107,6 +75,37 @@ def aliens_hide():
 	ui.Button1.hide()
 	alien = alien *(-1)
 	print('hallo')
+
+def onTimeout():
+	
+	'''эта функция полета шарика, и его отражения от стен '''
+
+	global x_ball, y_ball, a, b, x_pole_min, x_pole_max, pad, alien
+	
+	ui.Ball.setGeometry(QtCore.QRect(x_ball, y_ball, size_ball, size_ball)) # отображаем шарик с переменными координатами
+	ui.Ball.setText("😊")
+	x_ball += a
+	y_ball += b
+	
+	if x_ball >= x_pole_max or x_ball <= x_pole_min: #здесь мы отбиваемся от стен
+		a = -a
+	if y_ball >= y_pole_max - size_ball or y_ball <= y_pole_min:
+		b = -b	
+
+	'''здесь мы отбиваемся от ракетки'''
+	if y_ball >= 330 and y_ball <= 335: 
+		if x_ball >= pad and x_ball <= pad + 90: # '90' это длинна нашей ракетки в пикселях
+			if b > 0: 
+				revers()	
+	
+	if y_ball > 331:
+		ui.Ball.setText("😎")		
+
+	if y_ball > 300 and y_ball < 330: #показываем эмоцию
+		if x_ball >= int(pad*7.5) and x_ball <= int(pad*7.5)+90 and b < 0:
+			ui.Ball.setText("😩")	
+	if alien > 0:
+		aliens_show()		
 
 timer = QTimer()
 timer.start(20)
