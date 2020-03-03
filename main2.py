@@ -42,7 +42,7 @@ class MyBall:
 		self.row_and_column = ui.alien_column * ui.alien_row
 
 		for i in range(self.row_and_column):
-			
+			ui.a[i].setText(str(ui.alien_type[i]))
 			if self.x_ball > ui.bx[i] - self.size_ball and \
 		 		self.y_ball > ui.by[i] - self.size_ball and \
 				self.x_ball < ui.bx[i] + ui.alien_size_x and \
@@ -56,9 +56,11 @@ class MyBall:
 								
 				if self.y_ball > ui.by[i] - self.size_ball + 4 and self.y_ball < ui.by[i] + ui.alien_size_y - 4:
 					self.speed_x = -self.speed_x
+				
 				ui.bx[i] = 0
 				ui.by[i] = 0
 				ui.a[i].hide() #setDisabled(True) скрытый или невидимый
+
 				
 				
 				

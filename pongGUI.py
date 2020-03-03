@@ -7,6 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import random
 
 class Ui_MainWindow(object):
 
@@ -71,6 +72,7 @@ class Ui_MainWindow(object):
         self.bx = [] #массив координат кнопки x
         self.by = [] #массив координат кнопки y
         self.b = []
+        self.alien_type = []
         self.unit = 0
         #self.step_x = 0
         self.step_y = 50
@@ -84,7 +86,8 @@ class Ui_MainWindow(object):
             self.step_x = self.alien_size_x
             
             for j in range(self.alien_row):
-                self.a.append(QtWidgets.QPushButton((str(i) + str(j)), self.centralwidget))     
+                
+                self.a.append(QtWidgets.QPushButton('iop', self.centralwidget))     
                 self.a[self.unit].setGeometry(QtCore.QRect(self.step_x, self.step_y, self.alien_size_x, self.alien_size_y))  
                 
                 self.b.append((self.step_x, self.step_y))
@@ -92,6 +95,7 @@ class Ui_MainWindow(object):
                 self.by.append(self.step_y) 
                 self.unit += 1                   
                 self.step_x += self.alien_size_x
+                self.alien_type.append(random.randrange(0, 10))
         self.Ball = QtWidgets.QPushButton(self.centralwidget)
         self.Ball.setGeometry(QtCore.QRect(260, 130, 16, 16))
 
