@@ -32,11 +32,11 @@ def slider_val():
 
 class MyBall:
 	def __init__(self):
-		self.x_ball = 100
-		self.y_ball = 300
+		self.x_ball = 50
+		self.y_ball = 400
 		self.size_ball = 16
-		self.speed_x = 3
-		self.speed_y = 3 
+		self.speed_x = 1
+		self.speed_y = -3 
 		self.score = 0
 
 	def alien_show(self):
@@ -50,8 +50,8 @@ class MyBall:
 			ui.a[i].setStyleSheet('QPushButton {background-color: rgba(10,10,10,'+alien_clr+'); border-style: solid; border-width: 1px; border-color: gray; color: black; }')
 			
 			if ui.alien_type[i] <= 0: # если тип пришельца(его число) меньше нуля, то 
-					ui.bx[i] = 0 #обнуляем координаты указанного пришельца
-					ui.by[i] = 0
+					#ui.bx[i] = 0 #обнуляем координаты указанного пришельца
+					#ui.by[i] = 0
 					ui.a[i].hide() # и делаем его невидимым (setDisabled(True) скрытый или невидимый)
 
 			if self.y_ball >= y_pole_max - self.size_ball: #если мячик достигает дна
@@ -62,8 +62,8 @@ class MyBall:
 			if self.x_ball > ui.bx[i] - self.size_ball and \
 		 		self.y_ball > ui.by[i] - self.size_ball and \
 				self.x_ball < ui.bx[i] + ui.alien_size_x and \
-				self.y_ball < ui.by[i] + ui.alien_size_y:
-			'''условие отбивания от пришельца'''
+				self.y_ball < ui.by[i] + ui.alien_size_y and ui.alien_type[i] > 0 :
+				'''условие отбивания от пришельца'''
 
 				if ui.alien_type[i] > 0: # если у пришельца цифра больше нуля, то отнимаем одну единичку (после удара мячиком конечно)
 					ui.alien_type[i] -= 1

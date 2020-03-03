@@ -96,7 +96,7 @@ class Ui_MainWindow(object):
                 self.by.append(self.step_y) 
                 self.unit += 1                   
                 self.step_x += self.alien_size_x
-                self.alien_type.append(random.randrange(0, 5))
+                self.alien_type.append(random.randrange(1, 5))
         self.Ball = QtWidgets.QPushButton(self.centralwidget)
         self.Ball.setGeometry(QtCore.QRect(260, 130, 16, 16))
         self.Ball.setStyleSheet('background: black;')
