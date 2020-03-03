@@ -75,11 +75,11 @@ class Ui_MainWindow(object):
         self.alien_type = []
         self.unit = 0
         #self.step_x = 0
-        self.step_y = 50
+        self.step_y = 100
         self.alien_size_x = 50
         self.alien_size_y = 25
         self.alien_column = 7
-        self.alien_row = 6
+        self.alien_row = 4
    
         for i in range(self.alien_row):
             self.step_y += self.alien_size_y
@@ -87,7 +87,8 @@ class Ui_MainWindow(object):
             
             for j in range(self.alien_column):
                 
-                self.a.append(QtWidgets.QPushButton('iop', self.centralwidget))     
+                self.a.append(QtWidgets.QPushButton('iop', self.centralwidget))    
+
                 self.a[self.unit].setGeometry(QtCore.QRect(self.step_x, self.step_y, self.alien_size_x, self.alien_size_y))  
                 
                 self.b.append((self.step_x, self.step_y))
@@ -95,9 +96,10 @@ class Ui_MainWindow(object):
                 self.by.append(self.step_y) 
                 self.unit += 1                   
                 self.step_x += self.alien_size_x
-                self.alien_type.append(random.randrange(0, 10))
+                self.alien_type.append(random.randrange(0, 5))
         self.Ball = QtWidgets.QPushButton(self.centralwidget)
         self.Ball.setGeometry(QtCore.QRect(260, 130, 16, 16))
+        self.Ball.setStyleSheet('background: black;')
 
 
     def retranslateUi(self, MainWindow):

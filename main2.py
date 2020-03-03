@@ -22,7 +22,7 @@ MainWindow.show()
 # логика
 pad = 0
 x_pole_min = 25 #размеры поля
-x_pole_max = 432+8 
+x_pole_max = 432+7
 y_pole_min = 30
 y_pole_max = 420
 
@@ -37,12 +37,16 @@ class MyBall:
 		self.size_ball = 16
 		self.speed_x = 3
 		self.speed_y = 3 
+		self.score = 0
 
 	def alien_show(self):
 		self.row_and_column = ui.alien_column * ui.alien_row
 
 		for i in range(self.row_and_column):
 			ui.a[i].setText(str(ui.alien_type[i]))
+			alien_clr = str(ui.alien_type[i]/20)
+			ui.a[i].setStyleSheet('QPushButton {background-color: rgba(10,10,10,'+alien_clr+'); border-style: solid; border-width: 1px; border-color: gray; color: black; }')
+			print(alien_clr)
 			if ui.alien_type[i] <= 0:	
 					ui.bx[i] = 0
 					ui.by[i] = 0
@@ -54,6 +58,10 @@ class MyBall:
 
 				if ui.alien_type[i] > 0:
 					ui.alien_type[i] -= 1
+
+					self.score +=100
+					ui.label.setText(("Score: " + str(self.score)))
+					
 
 				# комета
 				#ui.a[i].setDisabled(True)
@@ -67,13 +75,8 @@ class MyBall:
 				
 			if self.y_ball >= y_pole_max - self.size_ball:
 				ui.alien_type[i] += 1
-				print(y_pole_max)
 				
-
-				
-				
-				
-			
+						
 
 	def move(self):
 		self.x_ball += self.speed_x
