@@ -42,38 +42,43 @@ class MyBall:
 	def alien_show(self):
 		self.row_and_column = ui.alien_column * ui.alien_row
 
-		for i in range(self.row_and_column):
-			ui.a[i].setText(str(ui.alien_type[i]))
-			alien_clr = str(ui.alien_type[i]/20)
-			ui.a[i].setStyleSheet('QPushButton {background-color: rgba(10,10,10,'+alien_clr+'); border-style: solid; border-width: 1px; border-color: gray; color: black; }')
-			print(alien_clr)
-			if ui.alien_type[i] <= 0:	
-					ui.bx[i] = 0
-					ui.by[i] = 0
-					ui.a[i].hide() #setDisabled(True) скрытый или невидимый
-			if self.y_ball >= y_pole_max - self.size_ball:
-				ui.alien_type[i] += 1
-				ui.a[i].show()
+		for i in range(self.row_and_column): #создаем цикл появления пришельцев, кол-во итераций равно их количеству
 
-				ui.bx[i], ui.by[i] = ui.b[i]
+			ui.a[i].setText(str(ui.alien_type[i])) #меняем текст на кнопке-пришельце на номер(тип нашего пришельца)
+			alien_clr = str(ui.alien_type[i]/20) #задаем степень прозрачности пришельца, в зависимости от числа его типа
+			# css стиль кнопки пришельца (задаем цвет кнопки)
+			ui.a[i].setStyleSheet('QPushButton {background-color: rgba(10,10,10,'+alien_clr+'); border-style: solid; border-width: 1px; border-color: gray; color: black; }')
+			
+			if ui.alien_type[i] <= 0: # если тип пришельца(его число) меньше нуля, то 
+					ui.bx[i] = 0 #обнуляем координаты указанного пришельца
+					ui.by[i] = 0
+					ui.a[i].hide() # и делаем его невидимым (setDisabled(True) скрытый или невидимый)
+
+			if self.y_ball >= y_pole_max - self.size_ball: #если мячик достигает дна
+				ui.alien_type[i] += 1 #прибавляем по единице всем пришельцам
+				ui.a[i].show() #и отображаем тех кто был скрыт
+				#ui.bx[i], ui.by[i] = ui.b[i]
+
 			if self.x_ball > ui.bx[i] - self.size_ball and \
 		 		self.y_ball > ui.by[i] - self.size_ball and \
 				self.x_ball < ui.bx[i] + ui.alien_size_x and \
 				self.y_ball < ui.by[i] + ui.alien_size_y:
+			'''условие отбивания от пришельца'''
 
-				if ui.alien_type[i] > 0:
+				if ui.alien_type[i] > 0: # если у пришельца цифра больше нуля, то отнимаем одну единичку (после удара мячиком конечно)
 					ui.alien_type[i] -= 1
 
-					self.score +=100
-					ui.label.setText(("Score: " + str(self.score)))
-					
-
-				# комета
+					self.score +=100 #добавляем очки
+					ui.label.setText(("Score: " + str(self.score))) #отображаем очки
+				
+				# пока не используемая функция кометы
 				#ui.a[i].setDisabled(True)
 				#ui.bx[i] = 0
 				#ui.by[i] = 0
+
+				'''проверяем положение шарика относительно пришельца к которому приблизились (приблизились по стороне x или y)'''
 				if self.x_ball > ui.bx[i] - self.size_ball + 4 and self.x_ball < ui.bx[i] + ui.alien_size_x - 4:
-					self.speed_y = -self.speed_y	
+					self.speed_y = -self.speed_y # в зависимости с какой стороны пришельца шарик подлетел, делаем его реверс	
 								
 				if self.y_ball > ui.by[i] - self.size_ball + 4 and self.y_ball < ui.by[i] + ui.alien_size_y - 4:
 					self.speed_x = -self.speed_x
