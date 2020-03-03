@@ -9,6 +9,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 class Ui_MainWindow(object):
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(500, 450)
@@ -49,45 +50,57 @@ class Ui_MainWindow(object):
         self.horizontalScrollBar.setOrientation(QtCore.Qt.Horizontal)
         self.horizontalScrollBar.setObjectName("horizontalScrollBar")
         
-        self.Ball = QtWidgets.QPushButton(self.centralwidget)
-        self.Ball.setGeometry(QtCore.QRect(260, 130, 16, 16))
-        self.Ball.setObjectName("Ball")
 
-        self.Button1_x = 140
-        self.Button1_y = 180
-
-        self.Button1 = QtWidgets.QPushButton(self.centralwidget)
-        self.Button1.setGeometry(QtCore.QRect(self.Button1_x, self.Button1_y, 200, 100))
-        self.Button1.setObjectName("Button1")
-
-        self.Button2 = QtWidgets.QPushButton(self.centralwidget)
-        self.Button2.setGeometry(QtCore.QRect(380, 380, 50, 25))
-        self.Button2.setObjectName("Button2")
-        
+        #self.Ball.setObjectName("Ball")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 500, 2))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
-        #self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        #self.statusbar.setObjectName("statusbar")
-        #MainWindow.setStatusBar(self.statusbar)
+
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(25, 5, 131, 21))
         self.label.setObjectName("label")
-
         self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
-    
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)    
 
-    
+    def alien_buttons(self, MainWindow):
+
+        
+        self.a = [] #массив экземпляров кнопки
+        self.bx = [] #массив координат кнопки x
+        self.by = [] #массив координат кнопки y
+        self.b = []
+        self.unit = 0
+        #self.step_x = 0
+        self.step_y = 50
+        self.alien_size_x = 60
+        self.alien_size_y = 15
+        self.alien_column = 8
+        self.alien_row = 6
+   
+        for i in range(self.alien_column):
+            self.step_y += self.alien_size_y
+            self.step_x = self.alien_size_x
+            
+            for j in range(self.alien_row):
+                self.a.append(QtWidgets.QPushButton((str(i) + str(j)), self.centralwidget))     
+                self.a[self.unit].setGeometry(QtCore.QRect(self.step_x, self.step_y, self.alien_size_x, self.alien_size_y))  
+                
+                self.b.append((self.step_x, self.step_y))
+                self.bx.append(self.step_x)
+                self.by.append(self.step_y) 
+                self.unit += 1                   
+                self.step_x += self.alien_size_x
+        self.Ball = QtWidgets.QPushButton(self.centralwidget)
+        self.Ball.setGeometry(QtCore.QRect(260, 130, 16, 16))
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
+
         MainWindow.setWindowTitle(_translate("MainWindow", "-= 🏓Office PONG🎾 =-"))
-        self.Ball.setText(_translate("MainWindow", "😊"))
-        self.Button1.setText(_translate("MainWindow", "1"))
-        self.Button2.setText(_translate("MainWindow", "2"))
+        #self.Ball.setText(_translate("MainWindow", "😊"))
         self.label.setText(_translate("MainWindow", "Score: 0"))
     
 
