@@ -76,16 +76,16 @@ class Ui_MainWindow(object):
         self.unit = 0
         #self.step_x = 0
         self.step_y = 50
-        self.alien_size_x = 60
-        self.alien_size_y = 15
-        self.alien_column = 8
+        self.alien_size_x = 50
+        self.alien_size_y = 25
+        self.alien_column = 7
         self.alien_row = 6
    
-        for i in range(self.alien_column):
+        for i in range(self.alien_row):
             self.step_y += self.alien_size_y
             self.step_x = self.alien_size_x
             
-            for j in range(self.alien_row):
+            for j in range(self.alien_column):
                 
                 self.a.append(QtWidgets.QPushButton('iop', self.centralwidget))     
                 self.a[self.unit].setGeometry(QtCore.QRect(self.step_x, self.step_y, self.alien_size_x, self.alien_size_y))  

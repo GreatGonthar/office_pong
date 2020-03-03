@@ -33,7 +33,7 @@ def slider_val():
 class MyBall:
 	def __init__(self):
 		self.x_ball = 100
-		self.y_ball = 200
+		self.y_ball = 300
 		self.size_ball = 16
 		self.speed_x = 3
 		self.speed_y = 3 
@@ -43,10 +43,18 @@ class MyBall:
 
 		for i in range(self.row_and_column):
 			ui.a[i].setText(str(ui.alien_type[i]))
+			if ui.alien_type[i] <= 0:	
+					ui.bx[i] = 0
+					ui.by[i] = 0
+					ui.a[i].hide() #setDisabled(True) скрытый или невидимый
 			if self.x_ball > ui.bx[i] - self.size_ball and \
 		 		self.y_ball > ui.by[i] - self.size_ball and \
 				self.x_ball < ui.bx[i] + ui.alien_size_x and \
 				self.y_ball < ui.by[i] + ui.alien_size_y:
+
+				if ui.alien_type[i] > 0:
+					ui.alien_type[i] -= 1
+
 				# комета
 				#ui.a[i].setDisabled(True)
 				#ui.bx[i] = 0
@@ -57,9 +65,10 @@ class MyBall:
 				if self.y_ball > ui.by[i] - self.size_ball + 4 and self.y_ball < ui.by[i] + ui.alien_size_y - 4:
 					self.speed_x = -self.speed_x
 				
-				ui.bx[i] = 0
-				ui.by[i] = 0
-				ui.a[i].hide() #setDisabled(True) скрытый или невидимый
+			if self.y_ball >= y_pole_max - self.size_ball:
+				ui.alien_type[i] += 1
+				print(y_pole_max)
+				
 
 				
 				
