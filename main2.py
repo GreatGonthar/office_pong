@@ -61,30 +61,27 @@ class MyBall:
 		 		self.y_ball > ui.by[i] - self.size_ball and \
 				self.x_ball < ui.bx[i] + ui.alien_size_x and \
 				self.y_ball < ui.by[i] + ui.alien_size_y and ui.alien_type[i] > 0: # номер пришельца больше нуля, значит он существует
-				'''условие отбивания от пришельца'''
-				
-				
+				'''условие отбивания от пришельца'''	 
+							
 				# пока не используемая функция кометы
 				#ui.a[i].setDisabled(True)
 				#ui.bx[i] = 0
 				#ui.by[i] = 0
 
-				'''проверяем положение шарика относительно пришельца к которому приблизились (приблизились по стороне x или y)
-				TODO: попробовать убрать то что ниже, а то как будет отражатся шарик решить другим образом'''
-				if self.x_ball > ui.bx[i] - self.size_ball + 1 and self.x_ball < ui.bx[i] + ui.alien_size_x - 1:					
-					self.speed_y = -self.speed_y # в зависимости с какой стороны пришельца шарик подлетел, делаем его реверс	
-							
-				if self.y_ball > ui.by[i] - self.size_ball + 1 and self.y_ball < ui.by[i] + ui.alien_size_y - 1:
-					
+
+				if self.x_ball > ui.bx[i] - self.size_ball + 3 and self.x_ball < ui.bx[i] + ui.alien_size_x - 3:
+					self.speed_y = -self.speed_y # в зависимости с какой стороны пришельца шарик подлетел, делаем его реверс
+					ui.alien_type[i] -= 1
+
+				elif self.y_ball > ui.by[i] - self.size_ball + 3 and self.y_ball < ui.by[i] + ui.alien_size_y - 3:
 					self.speed_x = -self.speed_x
-					
+					ui.alien_type[i] -= 1
 					 # если у пришельца цифра больше нуля, то отнимаем одну единичку (после удара мячиком конечно)
-				self.score +=100 #добавляем очки
-				ui.label.setText(("Score: " + str(self.score))) #отображаем очки				
-			
-				ui.alien_type[i] -= 1
-					
-			
+				else:	
+					self.score += 100
+					ui.label.setText(("Score: " + str(self.score))) #отображаем очки
+					print('угол')
+
 	def move(self):
 		self.x_ball += self.speed_x
 		self.y_ball += self.speed_y
@@ -102,8 +99,7 @@ class MyBall:
 						self.speed_x = random.randrange(-1, 2, 2) * random.randrange(1, 4)
 					if self.speed_x == 3 or self.speed_x == -3:
 						self.speed_y = random.randrange(-3, 0)	
-					print (str(19/20))
-					print('revers()')	
+				
 
 	def show(self):		
 		self.move()	
