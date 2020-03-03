@@ -78,12 +78,12 @@ class Ui_MainWindow(object):
         self.step_y = 100
         self.alien_size_x = 50
         self.alien_size_y = 25
-        self.alien_column = 7
+        self.alien_column = 6
         self.alien_row = 4
    
         for i in range(self.alien_row):
-            self.step_y += self.alien_size_y
-            self.step_x = self.alien_size_x
+            self.step_y += self.alien_size_y + 2
+            self.step_x = self.alien_size_x 
             
             for j in range(self.alien_column):
                 
@@ -95,8 +95,8 @@ class Ui_MainWindow(object):
                 self.bx.append(self.step_x)
                 self.by.append(self.step_y) 
                 self.unit += 1                   
-                self.step_x += self.alien_size_x
-                self.alien_type.append(random.randrange(1, 5))
+                self.step_x += self.alien_size_x + 2
+                self.alien_type.append(random.randrange(0, 5))
         self.Ball = QtWidgets.QPushButton(self.centralwidget)
         self.Ball.setGeometry(QtCore.QRect(260, 130, 16, 16))
         self.Ball.setStyleSheet('background: black;')
