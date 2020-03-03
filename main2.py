@@ -51,6 +51,11 @@ class MyBall:
 					ui.bx[i] = 0
 					ui.by[i] = 0
 					ui.a[i].hide() #setDisabled(True) скрытый или невидимый
+			if self.y_ball >= y_pole_max - self.size_ball:
+				ui.alien_type[i] += 1
+				ui.a[i].show()
+
+				ui.bx[i], ui.by[i] = ui.b[i]
 			if self.x_ball > ui.bx[i] - self.size_ball and \
 		 		self.y_ball > ui.by[i] - self.size_ball and \
 				self.x_ball < ui.bx[i] + ui.alien_size_x and \
@@ -73,9 +78,7 @@ class MyBall:
 				if self.y_ball > ui.by[i] - self.size_ball + 4 and self.y_ball < ui.by[i] + ui.alien_size_y - 4:
 					self.speed_x = -self.speed_x
 				
-			if self.y_ball >= y_pole_max - self.size_ball:
-				ui.alien_type[i] += 1
-				
+
 						
 
 	def move(self):
