@@ -61,26 +61,28 @@ class MyBall:
 		 		self.y_ball > ui.by[i] - self.size_ball and \
 				self.x_ball < ui.bx[i] + ui.alien_size_x and \
 				self.y_ball < ui.by[i] + ui.alien_size_y and ui.alien_type[i] > 0: # номер пришельца больше нуля, значит он существует
-				'''условие отбивания от пришельца'''	 
-							
+				'''условие отбивания от пришельцааааааааааааааааааааааааааааааааа'''	 
+
+				ui.alien_type[i] -= 1
 				# пока не используемая функция кометы
 				#ui.a[i].setDisabled(True)
 				#ui.bx[i] = 0
 				#ui.by[i] = 0
+				
 
-
-				if self.x_ball > ui.bx[i] - self.size_ball + 3 and self.x_ball < ui.bx[i] + ui.alien_size_x - 3:
+				if self.x_ball > ui.bx[i] - self.size_ball + 4 and self.x_ball < ui.bx[i] + ui.alien_size_x - 4:
 					self.speed_y = -self.speed_y # в зависимости с какой стороны пришельца шарик подлетел, делаем его реверс
-					ui.alien_type[i] -= 1
-
-				elif self.y_ball > ui.by[i] - self.size_ball + 3 and self.y_ball < ui.by[i] + ui.alien_size_y - 3:
+					#ui.alien_type[i] -= 1
+			
+				if self.y_ball > ui.by[i] - self.size_ball + 4 and self.y_ball < ui.by[i] + ui.alien_size_y - 4:
 					self.speed_x = -self.speed_x
-					ui.alien_type[i] -= 1
-					 # если у пришельца цифра больше нуля, то отнимаем одну единичку (после удара мячиком конечно)
-				else:	
-					self.score += 100
-					ui.label.setText(("Score: " + str(self.score))) #отображаем очки
-					print('угол')
+					#ui.alien_type[i] -= 1
+
+
+					# если у пришельца цифра больше нуля, то отнимаем одну единичку (после удара мячиком конечно)					
+				self.score += 100
+				ui.label.setText(("Score: " + str(self.score))) #отображаем очки
+				
 
 	def move(self):
 		self.x_ball += self.speed_x
