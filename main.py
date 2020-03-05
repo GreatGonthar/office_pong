@@ -85,8 +85,7 @@ class MyBall:
 					# если у пришельца цифра больше нуля, то отнимаем одну единичку (после удара мячиком конечно)					
 				self.score += 100
 				ui.label.setText(("Score: " + str(self.score))) #отображаем очки
-				
-				
+				self.dialog_message()
 
 	def move(self):
 		self.x_ball += self.speed_x
@@ -119,15 +118,36 @@ class MyBall:
 		if self.y_ball > 300 and self.y_ball < 330: #показываем эмоцию
 			if self.x_ball >= pad and self.x_ball <= pad + 90 and self.speed_y < 0:
 				ui.Ball.setText("😩")	
-		
+	
+	def dialog_message(self):
+		message = QMessageBox.question(MainWindow, 'Победа !!!', "Еще разок?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+		if message == QMessageBox.No:
+			message2 = QMessageBox.question(MainWindow, '😊😊😊',"Ты уверен?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)			
+			if message2 == QMessageBox.Yes:
+			
+				message3 = QMessageBox.question(MainWindow, '😎😎😎',"Точно уверен?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+				if message3 == QMessageBox.Yes:   
+					QMessageBox.information(MainWindow, '😩😩😩',"Ну ладно \n 😩😩😩", QMessageBox.Ok, QMessageBox.Ok)
+					sys.exit(app.exec_())              
+				else:
+					ui.setupUi(MainWindow)
+					ui.alien_buttons(MainWindow)
+					self.__init__()	
+			else:
+				ui.setupUi(MainWindow)
+				ui.alien_buttons(MainWindow)
+				self.__init__()
+		else:
+			ui.setupUi(MainWindow)
+			ui.alien_buttons(MainWindow)
+			self.__init__()
+            	
 				
 
 loop = MyBall() # TODO: сделать возможность одновременного появления нескольких шариков
-iop = MyBall()
-iop2 = MyBall()
+
 def onTimeout():
-	global iop, iop2
-	iop.speed_y = 20
+
 	loop.show()
 	
 	#loop2.show()

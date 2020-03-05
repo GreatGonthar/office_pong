@@ -7,6 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 import random
 
 class Ui_MainWindow(object):
@@ -100,7 +101,6 @@ class Ui_MainWindow(object):
         self.Ball = QtWidgets.QPushButton(self.centralwidget)
         self.Ball.setGeometry(QtCore.QRect(260, 130, 16, 16))
         self.Ball.setStyleSheet('background: black;')
-
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
