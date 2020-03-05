@@ -1,10 +1,14 @@
+''' Версия где мы заменяем глобальные переменные на классы'''
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QWidget, QMessageBox
 #from PyQt5.QtWidgets import QWidget, QApplication, QLabel, QHBoxLayout, QScrollBar
-from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QTimer, Qt
 import sys
 from pongGUI import Ui_MainWindow
 #from PyQt5.QtGui import QPainter, QColor, QBrush
 import random
+
 
 
 # создание приложения
@@ -14,109 +18,122 @@ app = QtWidgets.QApplication(sys.argv)
 MainWindow = QtWidgets.QMainWindow()
 ui = Ui_MainWindow()
 ui.setupUi(MainWindow)
+ui.alien_buttons(MainWindow)
+
 MainWindow.show()
 
 # логика
-size_ball = 16
-x_ball = 260 # начальные координаты шарика (45 - самый левый край ракетки, 420 - самый правый край ракетки) 48 - длинна ракетки
-y_ball = 130 # (325 - самый низ ракетки)
-a=3 # переменные для реверса полета шарика
-b=3
+pad = 0
 x_pole_min = 25 #размеры поля
-x_pole_max = 432 + (size_ball/2)
+x_pole_max = 432+7
 y_pole_min = 30
 y_pole_max = 420
-score = 0
-pad = 0
-alien = 1
 
 def slider_val():
 	global pad 
 	pad = int(ui.horizontalScrollBar.value()*7.5)
 
-def aliens_show():
-	''' алгоритм отбивания от кнопки '''
-	global x_ball, y_ball, a, b, x_pole_min, x_pole_max, pad
-	ui.Button1.show()
-	if x_ball > ui.Button1_x - size_ball and x_ball < ui.Button1_x + 200 and \
-	 y_ball > ui.Button1_y - size_ball and y_ball < ui.Button1_y + 100:
+class MyBall:
+	def __init__(self):
+		self.x_ball = 50
+		self.y_ball = 400
+		self.size_ball = 16
+		self.speed_x = 1
+		self.speed_y = -3 
+		self.score = 0
 
-		if y_ball > ui.Button1_y - size_ball + 3 and y_ball < ui.Button1_y + 100 - 3:
-			a = -a 
-		if x_ball > ui.Button1_x - size_ball + 3 and x_ball < ui.Button1_x + 200 - 3:
-			b = -b
-		print (ui.Button1_x, ui.Button1_x + 100, ui.Button1_y, ui.Button1_y + 100)	
-		score_swith()		
+	def alien_show(self):
+		self.row_and_column = ui.alien_column * ui.alien_row
+		
+		for i in range(self.row_and_column): #создаем цикл появления пришельцев, кол-во итераций равно их количеству
 
-def score_swith():
-	''' набираем очки'''
-	global score
-	score +=100
-	lable_text = str("Score: " + str(score))
-	ui.label.setText(lable_text)
-	print (lable_text)
+			ui.a[i].setText(str(ui.alien_type[i])) #меняем текст на кнопке-пришельце на номер(тип нашего пришельца)
+			alien_clr = str(ui.alien_type[i]/20) #задаем степень прозрачности пришельца, в зависимости от числа его типа
+			# css стиль кнопки пришельца (задаем цвет кнопки)
+			ui.a[i].setStyleSheet('QPushButton {background-color: rgba(10,10,10,'+alien_clr+'); border-style: solid; border-width: 1px; border-color: gray; color: black; }')
+			
+			if ui.alien_type[i] == 0: # если тип пришельца(его число) меньше нуля, то 					
+					ui.a[i].hide() # и делаем его невидимым (setDisabled(True) скрытый или невидимый)
 
-def revers():
-	global b, a
-	''' отбивание шарика от ракетки (скорость по одной из осей должна всегда быть три (для равномерного движения))'''
-	if b == 3 or b == -3: 
-		a = random.randrange(-1, 2, 2) * random.randrange(1, 4)
-	if a == 3 or a == -3:
-		b = random.randrange(1, 4)	
-	print (a, b)
-	b = -b # шарик летит вверх после отбивания
-	aliens_hide()
-	
+			if self.y_ball >= y_pole_max - self.size_ball: #если мячик достигает дна
+				ui.alien_type[i] += 1 #прибавляем по единице всем пришельцам
+				ui.a[i].show() #и отображаем тех кто был скрыт
+				#ui.bx[i], ui.by[i] = ui.b[i]
+
+			if self.x_ball > ui.bx[i] - self.size_ball and \
+		 		self.y_ball > ui.by[i] - self.size_ball and \
+				self.x_ball < ui.bx[i] + ui.alien_size_x and \
+				self.y_ball < ui.by[i] + ui.alien_size_y and ui.alien_type[i] > 0: # номер пришельца больше нуля, значит он существует
+				'''условие отбивания от пришельцааааааааааааааааааааааааааааааааа'''	 
+
+				ui.alien_type[i] -= 1
+				# пока не используемая функция кометы
+				#ui.a[i].setDisabled(True)
+				#ui.bx[i] = 0
+				#ui.by[i] = 0
+				
+
+				if self.x_ball > ui.bx[i] - self.size_ball + 4 and self.x_ball < ui.bx[i] + ui.alien_size_x - 4:
+					self.speed_y = -self.speed_y # в зависимости с какой стороны пришельца шарик подлетел, делаем его реверс
+					#ui.alien_type[i] -= 1
+			
+				if self.y_ball > ui.by[i] - self.size_ball + 4 and self.y_ball < ui.by[i] + ui.alien_size_y - 4:
+					self.speed_x = -self.speed_x
+					#ui.alien_type[i] -= 1
 
 
-def aliens_hide():
-	#ui.Button1.show()
-	global alien
-	ui.Button1.hide()
-	alien = alien *(-1)
-	print('hallo')
+					# если у пришельца цифра больше нуля, то отнимаем одну единичку (после удара мячиком конечно)					
+				self.score += 100
+				ui.label.setText(("Score: " + str(self.score))) #отображаем очки
+				
+				
 
+	def move(self):
+		self.x_ball += self.speed_x
+		self.y_ball += self.speed_y
+
+		if self.x_ball >= x_pole_max or self.x_ball <= x_pole_min: #здесь мы отбиваемся от стен
+			self.speed_x = -self.speed_x
+		if self.y_ball >= y_pole_max - self.size_ball or self.y_ball <= y_pole_min:
+			self.speed_y = -self.speed_y
+
+		if self.y_ball >= 330 and self.y_ball <= 335: 
+			if self.x_ball >= pad and self.x_ball <= pad + 90: # '90' это длинна нашей ракетки в пикселях
+				if self.speed_y > 0: 
+					self.speed_y = -self.speed_y
+					if self.speed_y == -3: 
+						self.speed_x = random.randrange(-1, 2, 2) * random.randrange(1, 4)
+					if self.speed_x == 3 or self.speed_x == -3:
+						self.speed_y = random.randrange(-3, 0)	
+				
+
+	def show(self):		
+		self.move()	
+		self.alien_show()
+		slider_val()
+		
+		ui.Ball.setGeometry(QtCore.QRect(self.x_ball, self.y_ball, self.size_ball, self.size_ball)) # отображаем шарик с переменными координатами
+		ui.Ball.setText("😊")
+		if self.y_ball > 331:
+			ui.Ball.setText("😎")		
+		if self.y_ball > 300 and self.y_ball < 330: #показываем эмоцию
+			if self.x_ball >= pad and self.x_ball <= pad + 90 and self.speed_y < 0:
+				ui.Ball.setText("😩")	
+		
+				
+
+loop = MyBall() # TODO: сделать возможность одновременного появления нескольких шариков
+iop = MyBall()
+iop2 = MyBall()
 def onTimeout():
+	global iop, iop2
+	iop.speed_y = 20
+	loop.show()
 	
-	'''эта функция полета шарика, и его отражения от стен '''
-
-	global x_ball, y_ball, a, b, x_pole_min, x_pole_max, pad, alien
-	
-	ui.Ball.setGeometry(QtCore.QRect(x_ball, y_ball, size_ball, size_ball)) # отображаем шарик с переменными координатами
-	ui.Ball.setText("😊")
-	x_ball += a
-	y_ball += b
-	
-	if x_ball >= x_pole_max or x_ball <= x_pole_min: #здесь мы отбиваемся от стен
-		a = -a
-	if y_ball >= y_pole_max - size_ball or y_ball <= y_pole_min:
-		b = -b	
-
-	'''здесь мы отбиваемся от ракетки'''
-	if y_ball >= 330 and y_ball <= 335: 
-		if x_ball >= pad and x_ball <= pad + 90: # '90' это длинна нашей ракетки в пикселях
-			if b > 0: 
-				revers()	
-	
-	if y_ball > 331:
-		ui.Ball.setText("😎")		
-
-	if y_ball > 300 and y_ball < 330: #показываем эмоцию
-		if x_ball >= int(pad*7.5) and x_ball <= int(pad*7.5)+90 and b < 0:
-			ui.Ball.setText("😩")	
-	if alien > 0:
-		aliens_show()		
-
+	#loop2.show()
 timer = QTimer()
 timer.start(20)
 timer.timeout.connect(onTimeout)
-
-ui.horizontalScrollBar.sliderMoved.connect(slider_val)	
-
-ui.Button2.clicked.connect(aliens_hide)
-
-
-# запускаем главную петлю
 
 sys.exit(app.exec_())
 
