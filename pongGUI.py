@@ -79,7 +79,7 @@ class Ui_MainWindow(object):
         self.step_y = 100
         self.alien_size_x = 50
         self.alien_size_y = 25
-        self.alien_column = 6
+        self.alien_column = 7
         self.alien_row = 4
    
         for i in range(self.alien_row):
@@ -88,7 +88,7 @@ class Ui_MainWindow(object):
             
             for j in range(self.alien_column):
                 
-                self.a.append(QtWidgets.QPushButton('iop', self.centralwidget))    
+                self.a.append(QtWidgets.QPushButton(' ', self.centralwidget))    
 
                 self.a[self.unit].setGeometry(QtCore.QRect(self.step_x, self.step_y, self.alien_size_x, self.alien_size_y))  
                 

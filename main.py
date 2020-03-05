@@ -45,7 +45,7 @@ class MyBall:
 	def alien_show(self):
 		self.row_and_column = ui.alien_column * ui.alien_row
 		
-		for i in range(self.row_and_column): #создаем цикл появления пришельцев, кол-во итераций равно их количеству
+		for i in range(self.row_and_column): #создаем цикл появления пришельцев, кол-во итераций (i), равно их количеству
 
 			ui.a[i].setText(str(ui.alien_type[i])) #меняем текст на кнопке-пришельце на номер(тип нашего пришельца)
 			alien_clr = str(ui.alien_type[i]/20) #задаем степень прозрачности пришельца, в зависимости от числа его типа
@@ -58,6 +58,8 @@ class MyBall:
 			if self.y_ball >= y_pole_max - self.size_ball: #если мячик достигает дна
 				ui.alien_type[i] += 1 #прибавляем по единице всем пришельцам
 				ui.a[i].show() #и отображаем тех кто был скрыт
+				self.score -= 150
+				ui.label.setText(("Score: " + str(self.score)))
 				#ui.bx[i], ui.by[i] = ui.b[i]
 
 			if self.x_ball > ui.bx[i] - self.size_ball and \
@@ -67,6 +69,7 @@ class MyBall:
 				'''условие отбивания от пришельцааааааааааааааааааааааааааааааааа'''	 
 
 				ui.alien_type[i] -= 1
+
 				# пока не используемая функция кометы
 				#ui.a[i].setDisabled(True)
 				#ui.bx[i] = 0
@@ -85,7 +88,10 @@ class MyBall:
 					# если у пришельца цифра больше нуля, то отнимаем одну единичку (после удара мячиком конечно)					
 				self.score += 100
 				ui.label.setText(("Score: " + str(self.score))) #отображаем очки
+				
+			if (max(ui.alien_type)) <= 0:
 				self.dialog_message()
+				
 
 	def move(self):
 		self.x_ball += self.speed_x
@@ -120,12 +126,12 @@ class MyBall:
 				ui.Ball.setText("😩")	
 	
 	def dialog_message(self):
-		message = QMessageBox.question(MainWindow, 'Победа !!!', "Еще разок?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+		message = QMessageBox.question(MainWindow, 'Победа !!!', 'ваш счет '+str(self.score)+'\n Еще разок?' , QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
 		if message == QMessageBox.No:
-			message2 = QMessageBox.question(MainWindow, '😊😊😊',"Ты уверен?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)			
+			message2 = QMessageBox.warning(MainWindow, '😊😊😊',"Ты уверен?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)			
 			if message2 == QMessageBox.Yes:
 			
-				message3 = QMessageBox.question(MainWindow, '😎😎😎',"Точно уверен?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+				message3 = QMessageBox.critical(MainWindow, '😎😎😎',"Точно уверен?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
 				if message3 == QMessageBox.Yes:   
 					QMessageBox.information(MainWindow, '😩😩😩',"Ну ладно \n 😩😩😩", QMessageBox.Ok, QMessageBox.Ok)
 					sys.exit(app.exec_())              
