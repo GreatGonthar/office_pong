@@ -33,7 +33,7 @@ def slider_val():
 	global pad 
 	pad = int(ui.horizontalScrollBar.value()*7.5)
 
-class MyBall:
+class MyBall(object):
 	def __init__(self):
 		self.x_ball = 50
 		self.y_ball = 400
@@ -58,8 +58,8 @@ class MyBall:
 			if self.y_ball >= y_pole_max - self.size_ball: #если мячик достигает дна
 				ui.alien_type[i] += 1 #прибавляем по единице всем пришельцам
 				ui.a[i].show() #и отображаем тех кто был скрыт
-				self.score -= 150
-				ui.label.setText(("Score: " + str(self.score)))
+				ui.alien_score -= 150
+				ui.label.setText(("Score: " + str(ui.alien_score)))
 				#ui.bx[i], ui.by[i] = ui.b[i]
 
 			if self.x_ball > ui.bx[i] - self.size_ball and \
@@ -86,8 +86,8 @@ class MyBall:
 
 
 					# если у пришельца цифра больше нуля, то отнимаем одну единичку (после удара мячиком конечно)					
-				self.score += 100
-				ui.label.setText(("Score: " + str(self.score))) #отображаем очки
+				ui.alien_score += 100
+				ui.label.setText(("Score: " + str(ui.alien_score))) #отображаем очки
 				
 			if (max(ui.alien_type)) <= 0:
 				self.dialog_message()
@@ -117,16 +117,17 @@ class MyBall:
 		self.alien_show()
 		slider_val()
 		
-		ui.Ball.setGeometry(QtCore.QRect(self.x_ball, self.y_ball, self.size_ball, self.size_ball)) # отображаем шарик с переменными координатами
+		ui.Ball.setGeometry(QtCore.QRect(self.x_ball, self.y_ball, self.size_ball, self.size_ball)) # отображаем шарик с переменными координатами		
 		ui.Ball.setText("😊")
+
 		if self.y_ball > 331:
 			ui.Ball.setText("😎")		
 		if self.y_ball > 300 and self.y_ball < 330: #показываем эмоцию
 			if self.x_ball >= pad and self.x_ball <= pad + 90 and self.speed_y < 0:
-				ui.Ball.setText("😩")	
-	
+				ui.Ball.setText("😩")
+
 	def dialog_message(self):
-		message = QMessageBox.question(MainWindow, 'Победа !!!', 'ваш счет '+str(self.score)+'\n Еще разок?' , QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
+		message = QMessageBox.question(MainWindow, 'Победа !!!', 'ваш счет '+str(ui.alien_score)+'\n Еще разок?' , QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
 		if message == QMessageBox.No:
 			message2 = QMessageBox.warning(MainWindow, '😊😊😊',"Ты уверен?", QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)			
 			if message2 == QMessageBox.Yes:
@@ -147,14 +148,43 @@ class MyBall:
 			ui.setupUi(MainWindow)
 			ui.alien_buttons(MainWindow)
 			self.__init__()
-            	
-				
 
-loop = MyBall() # TODO: сделать возможность одновременного появления нескольких шариков
+class MyBall2(MyBall):	
+
+	def __init__(self):
+		
+		self.x_ball = 50
+		self.y_ball = 400
+		self.size_ball = 16
+		self.speed_x = 1
+		self.speed_y = -3 
+		self.score = 0
+
+	def show(self):		
+		self.move()	
+		self.alien_show()
+		slider_val()
+		
+		ui.Ball2.setGeometry(QtCore.QRect(self.x_ball, self.y_ball, self.size_ball, self.size_ball)) # отображаем шарик с переменными координатами		
+		ui.Ball2.setText("2")
+
+loop = MyBall()
+loop2 = MyBall2() # TODO: сделать возможность одновременного появления нескольких шариков
 
 def onTimeout():
 
 	loop.show()
+
+	if ui.alien_score < 500 and ui.alien_score > 0:
+		loop2.x_ball = loop.x_ball
+		loop2.y_ball = loop.y_ball
+
+	if ui.alien_score >= 500:
+
+		loop2.show()
+
+
+
 	
 	#loop2.show()
 timer = QTimer()
