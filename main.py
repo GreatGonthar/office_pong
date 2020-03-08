@@ -43,7 +43,7 @@ class MyBall(object):
 		self.score = 0
 		self.y_bonus = 0
 		self.x_bonus = 0
-		self.rnd_bonus = False
+		self.Existence_bonus = False
 
 	def alien_show(self):
 		self.row_and_column = ui.alien_column * ui.alien_row
@@ -93,7 +93,7 @@ class MyBall(object):
 				aaa = random.randrange(1, 11) #делаем выпадание бонуса случайным
 				print (aaa)
 				if aaa == 1:
-					self.rnd_bonus = True # бонус существует
+					self.Existence_bonus = True # бонус существует
 				
 					self.y_bonus = self.y_ball # первоначальные координаты бонуса равны координатам шарика
 					self.x_bonus = self.x_ball
@@ -146,9 +146,9 @@ class MyBall(object):
 				print('goal')
 				self.y_bonus = 500 # прячем объект
 				ui.bonus1.setGeometry(QtCore.QRect(0, self.y_bonus, 32, 32))
-				self.rnd_bonus = False # объявляем его не существующим
+				self.Existence_bonus = False # объявляем его не существующим
 		if 	self.y_bonus >= 450: # если пропустили бонус, то в координате 450, он исчезнет
-			self.rnd_bonus = False
+			self.Existence_bonus = False
 
 
 	def dialog_message(self):
@@ -189,7 +189,9 @@ class MyBall2(MyBall):	# создаем дочерний класс для вт�
 		slider_val()
 
 		ui.Ball2.setPixmap(ui.Ball2_img)
-		ui.Ball2.setGeometry(QtCore.QRect(self.x_ball, self.y_ball, self.size_ball, self.size_ball)) # отображаем шарик с переменными координатами		
+		ui.Ball2.setGeometry(QtCore.QRect(self.x_ball, self.y_ball, self.size_ball, self.size_ball)) # отображаем шарик с переменными координатами	
+		if self.y_ball > 404:
+			ui.Ball2.setGeometry(QtCore.QRect(1, 1, self.size_ball, self.size_ball))
 		
 
 loop = MyBall()
@@ -199,17 +201,17 @@ def onTimeout():
 
 	loop.show()
 	
-	if loop.rnd_bonus == True: # если бонус существует
+	if loop.Existence_bonus == True: # если бонус существует
 		loop2.x_ball = loop.x_ball # начальные координаты нового шарика равны координатам старого
 		loop2.y_ball = loop.y_ball
 		loop.bonus() # запускаем бонус
 
 	if loop.y_bonus == 500: # такое значение появляется только если мы поймали бонус, через мгнвение он перестанет существовать. за это время мы 
-							# запускаем вторую петлю (второй шарик с координатами старого)
-		print('500')
-
 		loop2.show()
+		print(loop.y_bonus)
+		if loop2.y_ball > 404:		
 
+			loop.y_bonus = 499
 
 
 	
