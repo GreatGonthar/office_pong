@@ -41,6 +41,9 @@ class MyBall(object):
 		self.speed_x = 1
 		self.speed_y = -3 
 		self.score = 0
+		self.y_bonus = 0
+		self.x_bonus = 0
+		self.rnd_bonus = False
 
 	def alien_show(self):
 		self.row_and_column = ui.alien_column * ui.alien_row
@@ -68,7 +71,7 @@ class MyBall(object):
 				self.y_ball < ui.by[i] + ui.alien_size_y and ui.alien_type[i] > 0: # номер пришельца больше нуля, значит он существует
 				'''условие отбивания от пришельцааааааааааааааааааааааааааааааааа'''	 
 
-				ui.alien_type[i] -= 1
+				ui.alien_type[i] -= 1 # если у пришельца цифра больше нуля, то отнимаем одну единичку (после удара мячиком конечно)
 
 				# пока не используемая функция кометы
 				#ui.a[i].setDisabled(True)
@@ -83,14 +86,21 @@ class MyBall(object):
 				if self.y_ball > ui.by[i] - self.size_ball + 4 and self.y_ball < ui.by[i] + ui.alien_size_y - 4:
 					self.speed_x = -self.speed_x
 					#ui.alien_type[i] -= 1
-
-
-					# если у пришельца цифра больше нуля, то отнимаем одну единичку (после удара мячиком конечно)					
+										
 				ui.alien_score += 100
 				ui.label.setText(("Score: " + str(ui.alien_score))) #отображаем очки
+
+				aaa = random.randrange(1, 11) #делаем выпадание бонуса случайным
+				print (aaa)
+				if aaa == 1:
+					self.rnd_bonus = True # бонус существует
 				
-			if (max(ui.alien_type)) <= 0:
-				self.dialog_message()
+					self.y_bonus = self.y_ball # первоначальные координаты бонуса равны координатам шарика
+					self.x_bonus = self.x_ball
+				
+
+			if (max(ui.alien_type)) <= 0: # если максимальное число в списке пришельцев ноль
+				self.dialog_message() # запускаем сообщения
 				
 
 	def move(self):
@@ -126,6 +136,21 @@ class MyBall(object):
 			if self.x_ball >= pad and self.x_ball <= pad + 90 and self.speed_y < 0:
 				ui.Ball.setText("😩")
 
+	def bonus(self): # добавляем бонусы в игру
+		
+		ui.bonus1.setPixmap(ui.smaller_bonus1_img)	# отображаем картинку в лэйбле	
+		ui.bonus1.setGeometry(QtCore.QRect(self.x_bonus, self.y_bonus, 32, 32))	# отображаем лейбу в координатах бонуса
+		self.y_bonus += 1 # меняем координаты по y на единицу (создаем эффект движения вниз)
+		if self.y_bonus >= 330 and self.y_bonus <= 335: 
+			if self.x_bonus >= pad and self.x_bonus <= pad + 90: # '90' это длинна нашей ракетки в пикселях
+				print('goal')
+				self.y_bonus = 500 # прячем объект
+				ui.bonus1.setGeometry(QtCore.QRect(0, self.y_bonus, 32, 32))
+				self.rnd_bonus = False # объявляем его не существующим
+		if 	self.y_bonus >= 450: # если пропустили бонус, то в координате 450, он исчезнет
+			self.rnd_bonus = False
+
+
 	def dialog_message(self):
 		message = QMessageBox.question(MainWindow, 'Победа !!!', 'ваш счет '+str(ui.alien_score)+'\n Еще разок?' , QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
 		if message == QMessageBox.No:
@@ -149,10 +174,8 @@ class MyBall(object):
 			ui.alien_buttons(MainWindow)
 			self.__init__()
 
-class MyBall2(MyBall):	
-
-	def __init__(self):
-		
+class MyBall2(MyBall):	# создаем дочерний класс для второго шарика
+	def __init__(self):		# передаем старые атрибуты
 		self.x_ball = 50
 		self.y_ball = 400
 		self.size_ball = 16
@@ -160,26 +183,30 @@ class MyBall2(MyBall):
 		self.speed_y = -3 
 		self.score = 0
 
-	def show(self):		
+	def show(self):		# переопределяем метод, под новый объект
 		self.move()	
 		self.alien_show()
 		slider_val()
-		
+
+		ui.Ball2.setPixmap(ui.Ball2_img)
 		ui.Ball2.setGeometry(QtCore.QRect(self.x_ball, self.y_ball, self.size_ball, self.size_ball)) # отображаем шарик с переменными координатами		
-		ui.Ball2.setText("2")
+		
 
 loop = MyBall()
-loop2 = MyBall2() # TODO: сделать возможность одновременного появления нескольких шариков
+loop2 = MyBall2() 
 
 def onTimeout():
 
 	loop.show()
-
-	if ui.alien_score < 500 and ui.alien_score > 0:
-		loop2.x_ball = loop.x_ball
+	
+	if loop.rnd_bonus == True: # если бонус существует
+		loop2.x_ball = loop.x_ball # начальные координаты нового шарика равны координатам старого
 		loop2.y_ball = loop.y_ball
+		loop.bonus() # запускаем бонус
 
-	if ui.alien_score >= 500:
+	if loop.y_bonus == 500: # такое значение появляется только если мы поймали бонус, через мгнвение он перестанет существовать. за это время мы 
+							# запускаем вторую петлю (второй шарик с координатами старого)
+		print('500')
 
 		loop2.show()
 

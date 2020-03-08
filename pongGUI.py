@@ -7,6 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import Qt
 
 import random
 
@@ -60,6 +61,12 @@ class Ui_MainWindow(object):
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
 
+        self.bonus1 = QtWidgets.QLabel(self.centralwidget)
+        self.bonus1_img = QtGui.QPixmap('bonus1.png')
+
+        self.smaller_bonus1_img = self.bonus1_img.scaled(32, 32, Qt.KeepAspectRatio, Qt.FastTransformation)
+        
+
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(25, 5, 131, 21))
         self.label.setObjectName("label")
@@ -101,9 +108,14 @@ class Ui_MainWindow(object):
                 self.alien_type.append(random.randrange(0, 5))
         self.Ball = QtWidgets.QPushButton(self.centralwidget)
         self.Ball.setGeometry(QtCore.QRect(260, 130, 16, 16))
-        self.Ball2 = QtWidgets.QPushButton(self.centralwidget)
-        self.Ball2.setGeometry(QtCore.QRect(260, 130, 16, 16))
-        #self.Ball.setStyleSheet('background: black;')
+
+        self.Ball2 = QtWidgets.QLabel(self.centralwidget)
+        self.Ball2_img = QtGui.QPixmap('cd.png')
+        self.Ball2_img = self.Ball2_img.scaled(16, 16, Qt.KeepAspectRatio, Qt.FastTransformation)
+       
+
+        #self.Ball2.setGeometry(QtCore.QRect(260, 130, 100, 100))
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
